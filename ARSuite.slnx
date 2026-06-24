@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ARSuite/ARSuite.vbproj" Id="6dc3cde7-2cf3-4454-bfdd-62e4883d78ce" />
+  <Project Path="Data/Data.vbproj" Id="80c8db1a-fd4e-4060-a109-1f36aab171b0" />
+  <Project Path="Negocio/Negocio.vbproj" Id="66a2ef24-cfee-4083-bdee-92dcbcf69936" />
+</Solution>
