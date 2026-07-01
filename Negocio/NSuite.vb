@@ -24,5 +24,9 @@ Public Class NSuite
         obj.CerrarSesionGlobal(tokenGlobal)
         Return True
     End Function
-
+    Public Function configuracion_recaptcha() As DataSet
+        Dim ds As New DataSet
+        ds = obj.configuracion_recaptcha()
+        Return ds
+    End Function
 End Class

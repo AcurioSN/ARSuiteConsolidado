@@ -6,6 +6,7 @@ Imports System.Web.Services.Description
 Imports System.Web.UI
 Imports System.Web.UI.WebControls
 Imports Negocio
+Imports Newtonsoft.Json.Linq
 
 Public Class login
     Inherits System.Web.UI.Page
@@ -15,6 +16,10 @@ Public Class login
 
             If Not Page.IsPostBack Then
                 captura_URL_Sistema_acceso_directo() 'Cuando usuario Acurio2 Ingresará por la URL o máscara de un sistema. / Session("URL_SISTEMA")
+                Dim ds As DataSet
+                ds = obj.configuracion_recaptcha()
+                Session("clave_sitio") = ds.Tables(0).Rows(0)(0).ToString()
+                Session("clave_secreta") = ds.Tables(0).Rows(0)(1).ToString()
             End If
         Catch ex As Exception
             If (Session("user") Is Nothing) Then
@@ -80,17 +85,15 @@ Public Class login
             pwd = txtPassword.Text.ToString()
 
             '------------------reCaptcha-------------------
-            Dim result As String
-            Dim success As Boolean
 
-            'Dim respuestaRecaptcha As String = Request.Form("g-recaptcha-response")
-            'Dim secretKey As String = Session("clave_secreta")
-            'Dim client As New WebClient()
+            Dim respuestaRecaptcha As String = Request.Form("g-recaptcha-response")
+            Dim secretKey As String = Session("clave_secreta")
+            Dim client As New WebClient()
 
-            'Dim result As String = client.DownloadString($"https://www.google.com/recaptcha/api/siteverify?secret={secretKey}&response={respuestaRecaptcha}")
+            Dim result As String = client.DownloadString($"https://www.google.com/recaptcha/api/siteverify?secret={secretKey}&response={respuestaRecaptcha}")
 
-            'Dim jsonResult As JObject = JObject.Parse(result)
-            'Dim success As Boolean = jsonResult.Value(Of Boolean)("success")
+            Dim jsonResult As JObject = JObject.Parse(result)
+            Dim success As Boolean = jsonResult.Value(Of Boolean)("success")
 
             Dim can As Integer
             Dim usuario As String
@@ -109,106 +112,120 @@ Public Class login
             ds = obj.validar_acceso(user, clave)
             can = ds.Tables(0).Rows.Count
 
-            'Tipo de Usuario - EXISTE REGISTRO DEL USUARIO
-            If ds.Tables.Count > 0 AndAlso
+
+            If success Then
+
+                If ds.Tables.Count > 0 AndAlso
                 ds.Tables(0).Rows.Count > 0 AndAlso
                      ds.Tables(0).Columns.Count > 6 Then
 
-                tipo_usuario = ds.Tables(0).Rows(0)(6).ToString() '1: Usuario interno , 2: usuario externo proveedor
+                    tipo_usuario = ds.Tables(0).Rows(0)(6).ToString() '1: Usuario interno , 2: usuario externo proveedor
 
 
-                'Validación AD
-                If tipo_usuario = 1 Then 'usuario interno - validador AD
-                    'resultado = IsAuthenticated("acurio.net", usuario, clave)
+                    'Validación AD
+                    If tipo_usuario = 1 Then 'usuario interno - validador AD
+                        'resultado = IsAuthenticated("acurio.net", usuario, clave)
 
-                    ' Detectar si el valor ingresado es un AD o un DNI
-                    ' Si es numérico asumimos DNI, si no, asumimos AD
-                    Dim esAD As Boolean = False
-                    Dim usuarioAD As String = ""
-                    Dim dniUsuario As String = ""
+                        ' Detectar si el valor ingresado es un AD o un DNI
+                        ' Si es numérico asumimos DNI, si no, asumimos AD
+                        Dim esAD As Boolean = False
+                        Dim usuarioAD As String = ""
+                        Dim dniUsuario As String = ""
 
-                    If IsNumeric(user) Then
-                        ' Buscar AD a partir de DNI
-                        Dim listaUsuarios As List(Of Dictionary(Of String, String)) = ObtenerUsuariosPorUbicacion("acurio.net", user)
-                        For Each usuarioDir As Dictionary(Of String, String) In listaUsuarios
-                            If usuarioDir.ContainsKey("samaccountname") Then
-                                usuarioAD = usuarioDir("samaccountname")
+                        If IsNumeric(user) Then
+                            ' Buscar AD a partir de DNI
+                            Dim listaUsuarios As List(Of Dictionary(Of String, String)) = ObtenerUsuariosPorUbicacion("acurio.net", user)
+                            For Each usuarioDir As Dictionary(Of String, String) In listaUsuarios
+                                If usuarioDir.ContainsKey("samaccountname") Then
+                                    usuarioAD = usuarioDir("samaccountname")
+                                    esAD = True
+                                    dniUsuario = user
+                                    Exit For
+                                End If
+                            Next
+                        Else
+                            ' Buscar DNI a partir de AD
+                            dniUsuario = ObtenerUbicacionPorUsuarioAD("acurio.net", user)
+                            If Not String.IsNullOrEmpty(dniUsuario) Then
+                                Session("dni_usuario") = dniUsuario.ToString()
+                                usuarioAD = user
                                 esAD = True
-                                dniUsuario = user
-                                Exit For
                             End If
-                        Next
-                    Else
-                        ' Buscar DNI a partir de AD
-                        dniUsuario = ObtenerUbicacionPorUsuarioAD("acurio.net", user)
-                        If Not String.IsNullOrEmpty(dniUsuario) Then
-                            Session("dni_usuario") = dniUsuario.ToString()
-                            usuarioAD = user
-                            esAD = True
                         End If
+
+
+                        Dim mensaje As String
+                        If Not IsAuthenticated("acurio.net", usuarioAD, clave) Then
+                            mensaje = "La contraseña ingresada es incorrecta o su cuenta no cuenta con permisos para acceder al sistema."
+                            toastGuardado.InnerText = mensaje
+                            Mostrar_mensaje_registro()
+                            Return
+
+                        Else
+                            resultado = True
+                            ' Login correcto
+                        End If
+
+                    End If
+                    If tipo_usuario = 2 Then 'usuario externo - proveedor
+                        resultado = 1
                     End If
 
+                    'Validamos la existencia del usuario en arsysusers
 
+                    id_usuario = ds.Tables(0).Rows(0)(1).ToString()
+                    usuario = ds.Tables(0).Rows(0)(2).ToString()
+
+
+                    Session("user") = usuario '"imartinez"
+                    Session("id_usuario") = id_usuario 'id_usuario de los acceso a los sistemas
+                    Session("clave") = clave
+                    Dim dt_sistemas As DataTable = ds.Tables(0)
+                    Session("dt_sistemas") = dt_sistemas 'Acceso a los sistemas
+                    Session("tipo_usuario") = tipo_usuario
+
+                    '================ PROCESO COOKIE =================
+                    COOKIE_GENERAL_SESION()
+
+                    Dim strRedirect As String
+                    strRedirect = Request("ReturnUrl")
+                    If strRedirect Is Nothing Then
+                        strRedirect = "main.aspx"
+                    End If
+
+                    Dim vRecuerdame = False 'cuando pongas tu chek de recordar tu pagina 
+                    Dim tkt = New FormsAuthenticationTicket(1, user, DateTime.Now, DateTime.Now.AddMinutes(30), vRecuerdame, user)
+                    Dim cookiestr = FormsAuthentication.Encrypt(tkt)
+                    Dim ck = New HttpCookie("appNameAuth", cookiestr)
+                    If vRecuerdame Then
+                        ck.Expires = tkt.Expiration
+                    End If
+                    ck.Path = FormsAuthentication.FormsCookiePath
+                    Response.Cookies.Add(ck)
+                    Response.Redirect(strRedirect, True)
+
+
+                Else
+                    'El usuario no existe en su totalidad
                     Dim mensaje As String
-                    If Not IsAuthenticated("acurio.net", usuarioAD, clave) Then
-                        mensaje = "La contraseña ingresada es incorrecta o su cuenta no cuenta con permisos para acceder al sistema."
-                        toastGuardado.InnerText = mensaje
-                        Mostrar_mensaje_registro()
-                        Return
+                    mensaje = "El usuario ingresado no tiene acceso asignado a ningún sistema de la Suite AR"
+                    toastGuardado.InnerText = mensaje
+                    Mostrar_mensaje_registro()
 
-                    Else
-                        resultado = True
-                        ' Login correcto
-                    End If
 
                 End If
-                If tipo_usuario = 2 Then 'usuario externo - proveedor
-                    resultado = 1
-                End If
-
-                'Validamos la existencia del usuario en arsysusers
-
-                id_usuario = ds.Tables(0).Rows(0)(1).ToString()
-                usuario = ds.Tables(0).Rows(0)(2).ToString()
-
-
-                Session("user") = usuario '"imartinez"
-                Session("id_usuario") = id_usuario 'id_usuario de los acceso a los sistemas
-                Session("clave") = clave
-                Dim dt_sistemas As DataTable = ds.Tables(0)
-                Session("dt_sistemas") = dt_sistemas 'Acceso a los sistemas
-                Session("tipo_usuario") = tipo_usuario
-
-                '================ PROCESO COOKIE =================
-                COOKIE_GENERAL_SESION()
-
-                Dim strRedirect As String
-                strRedirect = Request("ReturnUrl")
-                If strRedirect Is Nothing Then
-                    strRedirect = "main.aspx"
-                End If
-
-                Dim vRecuerdame = False 'cuando pongas tu chek de recordar tu pagina 
-                Dim tkt = New FormsAuthenticationTicket(1, user, DateTime.Now, DateTime.Now.AddMinutes(30), vRecuerdame, user)
-                Dim cookiestr = FormsAuthentication.Encrypt(tkt)
-                Dim ck = New HttpCookie("appNameAuth", cookiestr)
-                If vRecuerdame Then
-                    ck.Expires = tkt.Expiration
-                End If
-                ck.Path = FormsAuthentication.FormsCookiePath
-                Response.Cookies.Add(ck)
-                Response.Redirect(strRedirect, True)
 
 
             Else
-                'El usuario no existe en su totalidad
-                Dim mensaje As String
-                mensaje = "El usuario ingresado no tiene acceso asignado a ningún sistema de la Suite AR"
-                toastGuardado.InnerText = mensaje
-                Mostrar_mensaje_registro()
-
-
+                ' Mostrar un mensaje de error indicando que el reCAPTCHA no se ha completado correctamente.
+                lblMensajeError.Text = "Por favor, completa la verificación reCAPTCHA."
+                lblMensajeError.Visible = True
+                lblMensajeError2.Visible = False
             End If
+
+
+
+            'Tipo de Usuario - EXISTE REGISTRO DEL USUARIO
 
 
 

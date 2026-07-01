@@ -11,6 +11,8 @@
 <title>Suite AR</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+		<!--end::Global Stylesheets Bundle-->
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <style>
 
@@ -581,6 +583,14 @@ body::before{
     }
 }
 
+
+
+.captcha-container {
+    transform: scale(0.90);
+    transform-origin: left top;
+}
+
+
 </style>
 
 </head>
@@ -690,6 +700,12 @@ body::before{
 
 </div>
 
+<div class="pb-lg-0 pb-5">
+    <div class="captcha-container">
+        <div class="g-recaptcha" data-sitekey="<%= Session("clave_sitio") %>"></div>
+    </div>
+</div>
+
             <!-- BUTTON -->
 
             <%--<button class="btn-login">
@@ -719,7 +735,11 @@ body::before{
                 </a>
 
             </div>
+							<br />
 
+							<asp:Label ID="lblMensajeError" runat="server" Text="" class="form-label fs-7 fw-bolder text-danger pt-8" Visible="false"></asp:Label>
+							<br />
+							<asp:Label ID="lblMensajeError2" runat="server" Text="" class="form-label fs-7 fw-bolder text-danger pt-8" Visible="false"></asp:Label>
             <!-- FOOTER -->
 
             <div class="footer">

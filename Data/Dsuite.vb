@@ -112,5 +112,28 @@ Public Class Dsuite
             Throw ' Lanza el error para que sea manejado en niveles superiores
         End Try
     End Function
+    Public Function configuracion_recaptcha() As DataSet
+        Dim odt As New DataTable
+        Dim strConnString As String = ConfigurationManager.ConnectionStrings("cadenaConexion").ConnectionString
+        Dim cn As New SqlConnection(strConnString)
 
+        Dim cmd As New SqlCommand
+        cmd.Connection = cn
+
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "sp_arsancion_configuracion_recaptcha"
+
+
+
+        cn.Open()
+        cmd.ExecuteNonQuery()
+        cn.Close()
+
+        Dim da As New SqlDataAdapter(cmd)
+        Dim ds As New DataSet
+        da.Fill(ds)
+
+
+        Return ds
+    End Function
 End Class
