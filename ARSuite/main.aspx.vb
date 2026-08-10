@@ -76,10 +76,10 @@ Public Class main
     Public Sub Mostrar_botones_sistemas(ByVal tipo_usuario As String)
 
         If tipo_usuario = "1" Then 'Usuario Interno
-            btnARPROVEEDORES.Visible = True
-            btnARREGISTRODEPROVEDORES.Visible = True
+            btnARPROVEEDORES.Visible = False
+            btnARREGISTRODEPROVEDORES.Visible = False
             btnARCOCINA.Visible = True
-            btnINFORASH.Visible = True
+            btnINFORASH.Visible = False
             btnARECETAS.Visible = True
             btnARECLAMOS.Visible = True
             btnARCONDUCTA.Visible = True
@@ -93,7 +93,7 @@ Public Class main
 
         If tipo_usuario = "2" Then 'Usuario Externo
 
-            btnARPROVEEDORES.Visible = True
+            btnARPROVEEDORES.Visible = False
             btnARREGISTRODEPROVEDORES.Visible = True
             btnARMANTO.Visible = True
 
@@ -416,6 +416,7 @@ Public Class main
             Dim urlARrecetas As String =
                 ConfigurationManager.AppSettings("ARreclamos")
 
+
             Dim url As String =
                 urlARrecetas &
                 "/?t=" & Server.UrlEncode(token) &
@@ -645,4 +646,6 @@ Public Class main
         '    lnkCerrarSesion_Click(sender, e)
         'End If
     End Sub
+
+
 End Class

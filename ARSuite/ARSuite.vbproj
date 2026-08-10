@@ -101,10 +101,12 @@
     <Content Include="Fondo_Sistemas\fondo_sorprende.png" />
     <Content Include="login.aspx" />
     <Content Include="login2.aspx" />
+    <Content Include="logo\arinventa.png" />
     <Content Include="main.aspx" />
     <Content Include="main_prueba.aspx" />
     <Content Include="prueba.aspx" />
     <Content Include="SesionExpirada.aspx" />
+    <Content Include="SistemaNoDisponible.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +176,13 @@
     </Compile>
     <Compile Include="SesionExpirada.aspx.vb">
       <DependentUpon>SesionExpirada.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="SistemaNoDisponible.aspx.designer.vb">
+      <DependentUpon>SistemaNoDisponible.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SistemaNoDisponible.aspx.vb">
+      <DependentUpon>SistemaNoDisponible.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
   </ItemGroup>

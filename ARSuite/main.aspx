@@ -53,7 +53,7 @@ body {
 /* LINEA ROJA */
 .title-divider {
     width: 3px;
-    height: 50px;
+    height: 30px;
     background: #C51C08;
     border-radius: 2px;
 }
@@ -495,7 +495,7 @@ a.card2{
             <i class="bi bi-grid-3x3-gap-fill title-icon"></i>
             <div class="title-divider"></div>
             <div class="title-text">
-                <span class="ar">AR</span>
+                <%--<span class="ar">AR</span>--%>
                 <span class="main">Suite AR</span>
             </div>
         </div>
@@ -551,7 +551,7 @@ a.card2{
     </div>
 
     <div class="subtitle">
-        Plataforma tecnológica corporativa de Acurio Restaurantes
+        Integrando personas, procesos y tecnología.
     </div>
 
         <!-- SISTEMAS -->
@@ -563,7 +563,7 @@ a.card2{
              CssClass="card2"
              CausesValidation="false"   
              OnClick="btnARPROVEEDORES_Click"
-             style="display:block; text-decoration:none; color:inherit; position:relative;" UseSubmitBehavior="false">
+             style="display:block; text-decoration:none; color:inherit; position:relative;" UseSubmitBehavior="false" Visible="False">
 
                   <!-- ICONO SUPERIOR -->
              <div id="divCandadoARPROVEEDORES" runat="server" class="card-badge">
@@ -582,7 +582,7 @@ a.card2{
             CssClass="card2"
             CausesValidation="false"    
             OnClick="btnARREGISTRODEPROVEDORES_Click"
-            style="display:block; text-decoration:none; color:inherit; position:relative;" UseSubmitBehavior="false">
+            style="display:block; text-decoration:none; color:inherit; position:relative;" UseSubmitBehavior="false" Visible="false">
 
                    <!-- ICONO SUPERIOR -->
              <div id="divCandadoARREGISTRODEPROVEEDORES" runat="server" class="card-badge">
@@ -619,7 +619,7 @@ a.card2{
              CssClass="card2"
              CausesValidation="false"  
              OnClick="btnINFORASH_Click"
-             style="display:block; text-decoration:none; color:inherit; position:relative;" UseSubmitBehavior="false">
+             style="display:block; text-decoration:none; color:inherit; position:relative;" UseSubmitBehavior="false" Visible="False">
 
              <!-- ICONO SUPERIOR -->
              <div id="divCandadoINFORASH" runat="server" class="card-badge">
@@ -649,7 +649,7 @@ a.card2{
 
             <i class="fas fa-utensils"></i>
 
-            <h3>ARECETAS</h3>
+            <h3>ARecetas</h3>
             <p>Gestión de Recetas</p>
 
         </asp:LinkButton>
@@ -669,7 +669,7 @@ a.card2{
              </div>
 
              <i class="fas fa-book-open"></i>
-             <h3>ARECLAMOS</h3>
+             <h3>AReclamos</h3>
              <p>Gestión de Quejas y Reclamos</p>
 
          </asp:LinkButton>
@@ -688,8 +688,8 @@ a.card2{
             </div>
 
              <i class="fas fa-user-check"></i>
-             <h3>ARCONDUCTA</h3>
-             <p>Gestión Memos a Colaboradores</p>
+             <h3>AR Conducta</h3>
+             <p>Gestión de sanciones</p>
 
          </asp:LinkButton>
 
@@ -706,8 +706,8 @@ a.card2{
             </div>
 
             <i class="fas fa-database"></i>
-            <h3>ARMAESTROS</h3>
-            <p>Gestión de Maestros Proveedores</p>
+            <h3>AR Data maestra</h3>
+            <p>Gestión de datos maestros</p>
 
         </asp:LinkButton>
 
@@ -724,7 +724,7 @@ a.card2{
             </div>
 
             <i class="fas fa-boxes"></i>
-            <h3>ARINVENTA</h3>
+            <h3>AR Inventa</h3>
             <p>Gestión de Inventarios</p>
 
         </asp:LinkButton>
@@ -743,8 +743,8 @@ a.card2{
             </div>
 
              <i class="fas fa-wrench"></i>
-             <h3>ARMANTO</h3>
-             <p>Gestión de Avisos de Manto</p>
+             <h3>AR Manto</h3>
+             <p>Gestión de avisos de mantenimiento</p>
 
          </asp:LinkButton>
 
@@ -761,7 +761,7 @@ a.card2{
             </div>
 
             <i class="fas fa-award"></i>
-            <h3>ARSORPRENDE</h3>
+            <h3>Sorprende</h3>
             <p>Reconocimiento al Colaborador</p>
 
         </asp:LinkButton>
@@ -779,14 +779,92 @@ a.card2{
             </div>
 
             <i class="fas fa-user-cog"></i>
-            <h3>ADMINISTRADOR USUARIOS</h3>
+            <h3>Administrador de Usuarios</h3>
             <p>Gestión de Usuarios y perfiles AR</p>
 
         </asp:LinkButton>
 
 
-       
+       <a href="javascript:void(0);"
+   class="card"
+   style="display:block; text-decoration:none; color:inherit; position:relative;cursor:not-allowed;">
 
+    <!-- ICONO SUPERIOR -->
+    <div class="card-badge">
+        <i class="fas fa-lock"></i>
+    </div>
+
+    <!-- ICONO PRINCIPAL -->
+    <i class="fa-solid fa-kitchen-set"></i>
+
+    <!-- TÍTULO -->
+    <h3>AR Cocina</h3>
+
+    <!-- DESCRIPCIÓN -->
+    <p>Gestión de Producciones en Cocina</p>
+
+</a>
+
+
+ <a href="javascript:void(0);"
+   class="card"
+   style="display:block; text-decoration:none; color:inherit; position:relative;cursor:not-allowed;">
+
+    <!-- ICONO SUPERIOR -->
+    <div class="card-badge">
+        <i class="fas fa-lock"></i>
+    </div>
+
+    <!-- ICONO PRINCIPAL -->
+    <i class="fas fa-camera"></i>
+
+    <!-- TÍTULO -->
+    <h3>Info Rush</h3>
+
+    <!-- DESCRIPCIÓN -->
+    <p>Gestión de evidencias en la unidad</p>
+
+</a>
+
+ <a href="javascript:void(0);"
+   class="card"
+   style="display:block; text-decoration:none; color:inherit; position:relative;cursor:not-allowed;">
+
+    <!-- ICONO SUPERIOR -->
+    <div class="card-badge">
+        <i class="fas fa-lock"></i>
+    </div>
+
+    <!-- ICONO PRINCIPAL -->
+    <i class="fas fa-truck-loading"></i>
+
+    <!-- TÍTULO -->
+    <h3>Web Proveedores</h3>
+
+    <!-- DESCRIPCIÓN -->
+    <p>Gestión de Documentos de Proveedores</p>
+
+</a>
+
+  <a href="javascript:void(0);"
+   class="card"
+   style="display:block; text-decoration:none; color:inherit; position:relative;cursor:not-allowed;">
+
+    <!-- ICONO SUPERIOR -->
+    <div class="card-badge">
+        <i class="fas fa-lock"></i>
+    </div>
+
+    <!-- ICONO PRINCIPAL -->
+    <i class="fas fa-user-friends"></i>
+
+    <!-- TÍTULO -->
+    <h3>Portal de Clientes SGA</h3>
+
+    <!-- DESCRIPCIÓN -->
+    <p>Ventas Arequipa</p>
+
+</a>
 
        <%-- <asp:LinkButton 
     ID="lnkArecetas" 
@@ -858,6 +936,14 @@ a.card2{
         window.location.href = "/" + modulo;
     }
 </script>
+<script>
+    document.addEventListener("keydown", function (e) {
 
+        if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "i") {
+            alert("🚀 Suite AR\n\nDesarrollado por Ivan Martinez\nGestor de Desarrollo de Sistemas e Innovación");
+        }
+
+    });
+</script>
 </body>
 </html>
