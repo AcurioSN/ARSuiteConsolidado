@@ -56,8 +56,23 @@ body{
     justify-content:center;
 
     position:relative;
-}
 
+   /* background:
+    linear-gradient(
+        135deg,
+        rgba(35,0,28,0.82),
+        rgba(95,0,70,0.72)
+    ),
+    url('Fondo_Sistemas/fondo.jpg') center center/cover no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+}
+*/
 /* =========================
    OVERLAY LIGHT
 ========================= */

@@ -753,7 +753,7 @@ a.card2{
             runat="server"
             CssClass="card"
             CausesValidation="false"            
-            style="display:block; text-decoration:none; color:inherit; position:relative;">
+            style="display:block; text-decoration:none; color:inherit; position:relative;" UseSubmitBehavior="false">
 
                  <!-- ICONO SUPERIOR -->
             <div id="divCandadoARSORPRENDE" runat="server" class="card-badge">

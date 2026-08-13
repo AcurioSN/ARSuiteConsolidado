@@ -243,6 +243,7 @@ Public Class main
             If row(4).ToString() = "ARSPR" Then
                 'Sistema ARSOPRENDE
                 divCandadoARSORPRENDE.InnerHtml = "<i class='fas fa-lock-open'></i>"
+                btnARSORPRENDE.OnClientClick = ""
                 btnARSORPRENDE.CssClass = "card2"
                 btnARSORPRENDE.Style("cursor") = "pointer"
             End If
@@ -647,5 +648,43 @@ Public Class main
         'End If
     End Sub
 
+    Private Sub btnARSORPRENDE_Click(sender As Object, e As EventArgs) Handles btnARSORPRENDE.Click
+        Dim resultado As Boolean
+        resultado = CargarActivacionGeneral()
 
+        If resultado Then
+
+            Dim usuario As String = Session("user").ToString()
+            Dim clave As String = Session("clave").ToString()
+
+            Dim datos As String = usuario & "|" & clave
+            Dim token As String = Encriptar(datos)
+
+            Dim tokenGlobal As String =
+                Session("ACTIVACION_GENERAL").ToString()
+
+            Dim urlARrecetas As String =
+                ConfigurationManager.AppSettings("ARSorprende")
+
+            Dim url As String =
+                urlARrecetas &
+                "/?t=" & Server.UrlEncode(token) &
+                "&tg=" & Server.UrlEncode(tokenGlobal)
+
+            Dim script As String =
+            "
+        window.open('" & url & "', '_blank');
+        window.location='main.aspx';
+        "
+
+            ScriptManager.RegisterStartupScript(
+                Me,
+                Me.GetType(),
+                "AbrirARSorprende",
+                script,
+                True)
+        Else
+            lnkCerrarSesion_Click(sender, e)
+        End If
+    End Sub
 End Class

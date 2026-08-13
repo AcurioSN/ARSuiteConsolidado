@@ -218,9 +218,15 @@ Public Class login
 
             Else
                 ' Mostrar un mensaje de error indicando que el reCAPTCHA no se ha completado correctamente.
-                lblMensajeError.Text = "Por favor, completa la verificación reCAPTCHA."
-                lblMensajeError.Visible = True
-                lblMensajeError2.Visible = False
+                'lblMensajeError.Text = "Por favor, completa la verificación reCAPTCHA."
+                'lblMensajeError.Visible = True
+                'lblMensajeError2.Visible = False
+
+
+                toastGuardado.InnerText = "Por favor, completa la verificación reCAPTCHA."
+                Mostrar_mensaje_registro()
+                Return
+
             End If
 
 
