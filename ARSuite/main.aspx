@@ -478,6 +478,21 @@ a.card2{
     box-shadow: none !important;
     background: transparent !important;
 }
+
+/* temporal para gestion de desmpeño - Gerson */
+
+.card {
+    background: #7c5a73;
+    color: white;
+}
+
+.card.active,
+.card:hover {
+    background: white;
+    color: #c94b35;
+}
+
+
     </style>
 </head>
 
@@ -865,6 +880,21 @@ a.card2{
     <p>Ventas Arequipa</p>
 
 </a>
+
+<a href="https://argdd.acuriorestaurantes.net/GestionDesempV2024/"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="card2"
+   style="display:block; text-decoration:none; color:inherit; position:relative;">
+
+    <i class="fas fa-user-friends"></i>
+
+    <h3>Gestión de Desempeño</h3>
+
+    <p>Sistema de desempeño</p>
+
+</a>
+
 
        <%-- <asp:LinkButton 
     ID="lnkArecetas" 
