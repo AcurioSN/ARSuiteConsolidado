@@ -155,7 +155,7 @@ Public Class login
 
 
                         Dim mensaje As String
-                        If Not IsAuthenticated("acurio.net", usuarioAD, clave) Then
+                        If Not IsAuthenticated("acurio.net", user, clave) Then
                             mensaje = "La contraseña ingresada es incorrecta o su cuenta no cuenta con permisos para acceder al sistema."
                             toastGuardado.InnerText = mensaje
                             Mostrar_mensaje_registro()
